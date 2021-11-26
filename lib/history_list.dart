@@ -39,8 +39,23 @@ class _HistoryListState extends State<HistoryList> {
                       ? CircularProgressIndicator()
                       : ListTile(
                           title: Text('Test Value: ${historyEntry['value']}'),
-                          trailing: Text('$formattedDate'),
-                          onTap: () {},
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('$formattedDate'),
+                              TextButton(
+                                onPressed: () async {
+                                  await HistoryDao.instance
+                                      .delete(historyEntry['id']);
+                                  setState(() {});
+                                },
+                                child: Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                 });
           },

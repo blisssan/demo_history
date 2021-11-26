@@ -23,7 +23,13 @@ class HistoryDao {
     ); // descending order
     final recordSnapshot = await _historyFolder.find(await _db, finder: finder);
     return recordSnapshot.map((snapshot) {
-      return Map<String, dynamic>.from(snapshot.value);
+      Map<String, dynamic> data = Map<String, dynamic>.from(snapshot.value);
+      data['id'] = snapshot.key;
+      return data;
     }).toList();
+  }
+
+  Future delete(id) async {
+    return await _historyFolder.record(id).delete(await _db);
   }
 }
